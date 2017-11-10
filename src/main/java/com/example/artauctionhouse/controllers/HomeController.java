@@ -23,15 +23,19 @@ public class HomeController {
         return"home/login";
     }
     @RequestMapping(value="/login", method = RequestMethod.POST)
-    public String loggedin(@RequestParam String username){
-        username=username;
-        if (username!=""){
-            return"loggedin/loggedin";
+    public String loggedIn(@RequestParam String username, @RequestParam String password){
+        //username=username;
+        if (username!="" && password!=""){
+            return "redirect:/home/loggedin/success" ;
 
         }
         else{
             return"home/login";
         }
+    }
+    @RequestMapping(value="/newuser")
+    public String newUserSignup(){
+        return "home/newusersignup";
     }
 }
 
