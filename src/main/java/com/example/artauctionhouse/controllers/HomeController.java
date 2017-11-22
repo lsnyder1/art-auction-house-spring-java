@@ -4,6 +4,7 @@ import com.example.artauctionhouse.models.Data.UserDao;
 import com.example.artauctionhouse.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,17 +25,27 @@ public class HomeController {
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index() {
         return "home/index";
+
     }
     @RequestMapping(value="/login", method = RequestMethod.GET)
     public String login(){
         return"home/login";
+
     }
     @RequestMapping(value="/login", method = RequestMethod.POST)
-    public String loggedIn(@RequestParam String username, @RequestParam String password){
+    public String logIn(Model model,@RequestParam String username, @RequestParam String password){
+        Boolean userLoggedIn=false;
+        int id = 0;
 
-        if (username!="" && password!=""){
-            return "redirect:/home/loggedin/success" ;
-
+        for(User user:userDao.findAll()) {
+            if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
+                userLoggedIn = true;
+                id = user.getId();
+            }
+        }
+        if (userLoggedIn=true) {
+            model.addAttribute(userDao.findOne(id));
+            return "redirect:/home/{username}/";
         }
         else{
             return"home/login";
@@ -52,19 +63,22 @@ public class HomeController {
 
 
         for (User user : userDao.findAll() ){
-            if (user.getUsername().equals(username)){
+            if (user.getUsername().equalsIgnoreCase(username)){
                 isUsernameTaken = true;
             }
         }
         if (password.equals(confirmPassword)){
             doPasswordsMatch=true;
         }
-        if (doPasswordsMatch==true && isUsernameTaken==false){
+        if (doPasswordsMatch && !isUsernameTaken){
             newUser.setUsername(username);
             newUser.setPassword(password);
             userDao.save(newUser);
         }
-        return "loggedin/loggedin";
+        else{
+            return "home/newusersignup";
+        }
+        return "loggedin/accountcreationsuccess";
 
     }
 }
