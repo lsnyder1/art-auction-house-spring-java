@@ -43,9 +43,11 @@ public class HomeController {
                 id = user.getId();
             }
         }
-        if (userLoggedIn=true) {
-            model.addAttribute(userDao.findOne(id));
-            return "redirect:/home/{username}/";
+        if (userLoggedIn) {
+            model.addAttribute("user", userDao.findOne(id));
+            model.addAttribute("username",username);
+
+            return "redirect:/home/{user}";
         }
         else{
             return"home/login";
@@ -57,9 +59,10 @@ public class HomeController {
     }
 
     @RequestMapping(value="/newuser", method = RequestMethod.POST )
-    public String newUserSignupProcess(@RequestParam String username,@RequestParam String password,@RequestParam String confirmPassword,@Valid User newUser){
+    public String newUserSignupProcess(Model model,@RequestParam String username,@RequestParam String password,@RequestParam String confirmPassword,@Valid User newUser){
         Boolean doPasswordsMatch=false;
         Boolean isUsernameTaken=false;
+
 
 
         for (User user : userDao.findAll() ){
@@ -74,6 +77,8 @@ public class HomeController {
             newUser.setUsername(username);
             newUser.setPassword(password);
             userDao.save(newUser);
+
+
         }
         else{
             return "home/newusersignup";
