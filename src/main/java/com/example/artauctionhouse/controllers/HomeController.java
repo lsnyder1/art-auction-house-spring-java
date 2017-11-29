@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 /**
@@ -33,7 +35,7 @@ public class HomeController {
 
     }
     @RequestMapping(value="/login", method = RequestMethod.POST)
-    public String logIn(Model model,@RequestParam String username, @RequestParam String password){
+    public String logIn(HttpServletResponse response,Model model, @RequestParam String username, @RequestParam String password){
         Boolean userLoggedIn=false;
         int id=0;
         User activeUser=new User();
@@ -43,6 +45,10 @@ public class HomeController {
                 userLoggedIn = true;
                 id = user.getId();
                 activeUser=userDao.findOne(id);
+                String cookieVal=Integer.toString(id);
+                Cookie loggedInCookie=new Cookie("loggedInCookie",cookieVal);
+                loggedInCookie.setMaxAge(1800);
+                response.addCookie(loggedInCookie);
             }
         }
         if (userLoggedIn) {

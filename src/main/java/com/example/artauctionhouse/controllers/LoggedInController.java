@@ -1,12 +1,12 @@
 package com.example.artauctionhouse.controllers;
 
+import com.example.artauctionhouse.models.Data.UserDao;
 import com.example.artauctionhouse.models.User;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -16,10 +16,15 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping (value = "/home")
 public class LoggedInController {
+    @Autowired
+    UserDao userDao;
 
     @RequestMapping(value="/{username}", method = RequestMethod.GET)
-    public String loginSuccess(Model model){
-        User activeUser=(User)model.asMap().get("user");
+    public String loginSuccess(@CookieValue(value="loggedInCookie")String cookieValue, Model model){
+
+        int id =Integer.parseInt(cookieValue);
+        User activeUser=userDao.findOne(id);
+        model.addAttribute("activeUser",activeUser);
         return "loggedin/loggedin";
 
     }
