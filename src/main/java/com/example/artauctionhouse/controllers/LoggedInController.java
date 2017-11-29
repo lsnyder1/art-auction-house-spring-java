@@ -14,11 +14,12 @@ import javax.validation.Valid;
  * Created by lonny on 11/9/2017.
  */
 @Controller
-@RequestMapping (value = "/home/{username}")
+@RequestMapping (value = "/home")
 public class LoggedInController {
 
-    @RequestMapping(value="success", method = RequestMethod.GET)
+    @RequestMapping(value="/{username}", method = RequestMethod.GET)
     public String loginSuccess(Model model){
+        User activeUser=(User)model.asMap().get("user");
         return "loggedin/loggedin";
 
     }

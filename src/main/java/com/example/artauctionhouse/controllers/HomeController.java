@@ -35,19 +35,20 @@ public class HomeController {
     @RequestMapping(value="/login", method = RequestMethod.POST)
     public String logIn(Model model,@RequestParam String username, @RequestParam String password){
         Boolean userLoggedIn=false;
-        int id = 0;
+        int id=0;
+        User activeUser=new User();
 
         for(User user:userDao.findAll()) {
             if (user.getUsername().equals(username) && user.getPassword().equals(password)) {
                 userLoggedIn = true;
                 id = user.getId();
+                activeUser=userDao.findOne(id);
             }
         }
         if (userLoggedIn) {
-            model.addAttribute("user", userDao.findOne(id));
-            model.addAttribute("username",username);
+            model.addAttribute("user", activeUser);
 
-            return "redirect:/home/{user}";
+            return "redirect:/home/"+activeUser.getUsername();
         }
         else{
             return"home/login";
