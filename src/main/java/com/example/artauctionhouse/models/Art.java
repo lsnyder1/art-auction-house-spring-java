@@ -3,6 +3,7 @@ package com.example.artauctionhouse.models;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -13,6 +14,9 @@ public class Art {
 
     @NotNull
     private String title;
+
+    @ManyToOne
+    private User owner;
 
     @NotNull
     private String imageLocation;

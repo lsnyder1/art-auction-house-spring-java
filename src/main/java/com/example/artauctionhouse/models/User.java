@@ -23,7 +23,11 @@ public class User {
     @Id
     private int id;
 
-    private List<Art> ownedArt;
+    @OneToMany
+    @JoinColumn(name="owner_id")
+    private List<Art> ownedArt=new ArrayList<>();
+
+    private List<Art> favoriteArt=new ArrayList<>();
 
     public User(String username, String password){
         this.password=password;
