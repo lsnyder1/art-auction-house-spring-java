@@ -2,7 +2,8 @@ package com.example.artauctionhouse.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -21,6 +22,8 @@ public class User {
     @GeneratedValue
     @Id
     private int id;
+
+    private List<Art> ownedArt;
 
     public User(String username, String password){
         this.password=password;
