@@ -59,6 +59,8 @@ public class HomeController {
             return "redirect:/home/"+activeUser.getUsername();
         }
         else{
+            model.addAttribute("error","Username and password do not match.");
+            model.addAttribute("title","Log in");
             return"home/login";
         }
     }

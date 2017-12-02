@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <head th:replace="fragments :: head"></head>
 </head>
@@ -16,6 +16,7 @@
             <div class = "form-group">
                 <label>Password</label>
                 <input class = "form-control" name = "password" />
+                <span th:text="${error}" class="error"></span>
             </div>
         <button action="submit" class ="btn-lg">submit</button>
     </form>
