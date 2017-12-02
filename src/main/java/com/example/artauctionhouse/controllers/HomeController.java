@@ -1,14 +1,12 @@
 package com.example.artauctionhouse.controllers;
 
+import com.example.artauctionhouse.models.Data.ArtDao;
 import com.example.artauctionhouse.models.Data.UserDao;
 import com.example.artauctionhouse.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -23,14 +21,18 @@ public class HomeController {
 
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private ArtDao artDao;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public String index() {
+    public String index(Model model) {
+        model.addAttribute("title","Art Auction House");
         return "home/index";
 
     }
     @RequestMapping(value="/login", method = RequestMethod.GET)
-    public String login(){
+    public String login(Model model){
+        model.addAttribute("title","Log in");
         return"home/login";
 
     }
@@ -61,12 +63,14 @@ public class HomeController {
         }
     }
     @RequestMapping(value="/newuser",method=RequestMethod.GET)
-    public String newUserSignup(){
+    public String newUserSignup(Model model){
+        model.addAttribute("title","Sign Up");
         return "home/newusersignup";
     }
 
     @RequestMapping(value="/newuser", method = RequestMethod.POST )
     public String newUserSignupProcess(Model model,@RequestParam String username,@RequestParam String password,@RequestParam String confirmPassword,@Valid User newUser){
+        model.addAttribute("title","Sign Up");
         Boolean doPasswordsMatch=false;
         Boolean isUsernameTaken=false;
 

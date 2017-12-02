@@ -1,10 +1,9 @@
 package com.example.artauctionhouse.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by lonny on 11/30/2017.
@@ -27,6 +26,9 @@ public class Art {
     private int id;
 
     private String style;
+
+    @ManyToMany
+    private List<User> usersThatFavorited;
 
     public Art(String title, String imageLocation, String style) {
         this.title = title;

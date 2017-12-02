@@ -27,7 +27,8 @@ public class User {
     @JoinColumn(name="owner_id")
     private List<Art> ownedArt=new ArrayList<>();
 
-    private List<Art> favoriteArt=new ArrayList<>();
+    @ManyToMany(mappedBy ="usersThatFavorited")
+    private List<Art> favoriteArt;
 
     public User(String username, String password){
         this.password=password;

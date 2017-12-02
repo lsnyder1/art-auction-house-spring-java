@@ -1,23 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>User Login:</title>
+    <head th:replace="fragments :: head"></head>
 </head>
 <body>
-    <h1>User Login:</h1>
-    <form method="post">
-        <label>Username</label>
-            <div>
-                <input name="username" />
+    <div align="center">
+    <h1 th:replace="fragments :: title"></h1>
+    <form method="post" style="max-width:300px;">
+
+            <div class = "form-group">
+                <label>Username</label>
+                <input class = "form-control" name="username" />
             </div>
-        <label>Password</label>
-            <div>
-                <input name = "password" />
+
+            <div class = "form-group">
+                <label>Password</label>
+                <input class = "form-control" name = "password" />
             </div>
-        <button action="submit">submit</button>
+        <button action="submit" class ="btn-lg">submit</button>
     </form>
     <a href="/home/newuser">Create free account.</a>
+    </div>
 
 
 
