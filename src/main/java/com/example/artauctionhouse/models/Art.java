@@ -66,4 +66,20 @@ public class Art {
     public int getId() {
         return id;
     }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public List<User> getUsersThatFavorited() {
+        return usersThatFavorited;
+    }
+
+    public void setUsersThatFavorited(List<User> usersThatFavorited) {
+        this.usersThatFavorited = usersThatFavorited;
+    }
 }

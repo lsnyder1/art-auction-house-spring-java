@@ -38,6 +38,7 @@ public class LoggedInController {
         //renders users homepage with add/edit options
         if (username.equalsIgnoreCase(activeUser.getUsername())) {
             pageOwner = activeUser;
+            
             return "loggedin/userhome";
         }
 
@@ -55,7 +56,7 @@ public class LoggedInController {
         }
     }
     @RequestMapping(value="/{username}/addart", method = RequestMethod.GET)
-    public String addArt(@CookieValue(value="loggedInCookie")String cookieValue, Model model,@PathVariable String username,@ModelAttribute Art newArt) {
+    public String addArtForm(@CookieValue(value="loggedInCookie")String cookieValue, Model model,@PathVariable String username,Art newArt) {
         int id = Integer.parseInt(cookieValue);
         User activeUser = userDao.findOne(id);
         model.addAttribute("activeUser", activeUser);
@@ -77,6 +78,33 @@ public class LoggedInController {
 
 
         }
+    @RequestMapping(value="/{userName}/addart",method =RequestMethod.POST)
+    public String processAddArtForm(@CookieValue(value="loggedInCookie")String cookieValue, Model model,@PathVariable String userName,@ModelAttribute Art newArt){
+        int id = Integer.parseInt(cookieValue);
+        User activeUser = userDao.findOne(id);
+        model.addAttribute("activeUser", activeUser);
+        newArt.setOwner(activeUser);
+        artDao.save(newArt);
+        return "redirect:/home/"+userName;
 
     }
+
+    @RequestMapping(value="/{username}/{artTitle}",method=RequestMethod.GET)
+    public String displayArtPage(@CookieValue(value="loggedInCookie")String cookieValue,Model model,@PathVariable String username,@PathVariable String artTitle){
+        int id=Integer.parseInt(cookieValue);
+        User activeUser=userDao.findOne(id);
+        model.addAttribute("activeUser",activeUser);
+        User artOwner = userDao.findByUsername(username);
+        Art art = artDao.findByOwnerAndTitle(artOwner,artTitle);
+
+
+
+
+
+
+
+        return "loggedin/displayart";
+    }
+
+}
 

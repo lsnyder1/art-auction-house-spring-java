@@ -9,17 +9,21 @@
     <h1 th:replace="fragments :: title"></h1>
 <a href="/home/login">login</a>
 
-        <div class="container">
-            <div th:each= "art: ${arts}" class="gallery-item">
+        <div class="row">
+            <div th:each= "art: ${arts}" class="column">
                 <a th:href="'/home/'+${art.owner.username}+'/'+${art.title}">
-                    <img th:src="${art.imageLocation}"/>
+                    <img th:src="@{${art.imageLocation}}"/>
                     <h3 th:text="${art.title}">Title</h3>
                     <p th:text="${art.style}">style</p>
+
                 </a>
             </div>
 
         </div>
     </div>
+
+
+
 
 
 </body>

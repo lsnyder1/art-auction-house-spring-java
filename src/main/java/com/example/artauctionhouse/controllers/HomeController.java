@@ -1,5 +1,6 @@
 package com.example.artauctionhouse.controllers;
 
+import com.example.artauctionhouse.models.Art;
 import com.example.artauctionhouse.models.Data.ArtDao;
 import com.example.artauctionhouse.models.Data.UserDao;
 import com.example.artauctionhouse.models.User;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.ArrayList;
 
 /**
  * Created by lonny on 11/1/2017.
@@ -24,8 +26,13 @@ public class HomeController {
     @Autowired
     private ArtDao artDao;
 
+
+
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String index(Model model) {
+        Iterable<Art> arts=artDao.findAll();
+        model.addAttribute("arts",arts);
         model.addAttribute("title","Art Auction House");
         return "home/index";
 
