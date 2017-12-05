@@ -26,31 +26,26 @@ public class LoggedInController {
     private ArtDao artDao;
 
     @RequestMapping(value="/{username}", method = RequestMethod.GET)
-    public String loginSuccess(@CookieValue(value="loggedInCookie")String cookieValue, Model model,@PathVariable String username) {
+    public String userHomePage(@CookieValue(value="loggedInCookie")String cookieValue, Model model,@PathVariable String username) {
 
 
         int id = Integer.parseInt(cookieValue);
         User activeUser = userDao.findOne(id);
-        User pageOwner = new User();
+        User pageOwner = userDao.findByUsername(username);
         model.addAttribute("activeUser", activeUser);
+        model.addAttribute("pageOwner",pageOwner);
 
 
         //renders users homepage with add/edit options
-        if (username.equalsIgnoreCase(activeUser.getUsername())) {
-            pageOwner = activeUser;
-            
+        if (pageOwner.getUsername().equalsIgnoreCase(activeUser.getUsername())) {
+
+            model.addAttribute("title",username+"'s page");
             return "loggedin/userhome";
         }
 
         //returns a users page that does not belong to activeUser without add/edit options
         else {
-            for (User user : userDao.findAll()) {
-                if (user.getUsername().equalsIgnoreCase(username)) {
-                    pageOwner = user;
-                    break;
-                }
-
-            }
+            model.addAttribute("title",username+"'s page");
             return "loggedin/someuserpage";
 
         }
@@ -96,12 +91,8 @@ public class LoggedInController {
         model.addAttribute("activeUser",activeUser);
         User artOwner = userDao.findByUsername(username);
         Art art = artDao.findByOwnerAndTitle(artOwner,artTitle);
-
-
-
-
-
-
+        model.addAttribute("art",art);
+        model.addAttribute("title",art.getTitle());
 
         return "loggedin/displayart";
     }

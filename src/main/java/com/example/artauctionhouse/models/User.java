@@ -58,5 +58,19 @@ public class User {
         return id;
     }
 
+    public List<Art> getOwnedArt() {
+        return ownedArt;
+    }
 
+    public void setOwnedArt(List<Art> ownedArt) {
+        this.ownedArt = ownedArt;
+    }
+
+    public List<Art> getFavoriteArt() {
+        return favoriteArt;
+    }
+
+    public void setFavoriteArt(List<Art> favoriteArt) {
+        this.favoriteArt = favoriteArt;
+    }
 }

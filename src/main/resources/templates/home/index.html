@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xlmns:th="https://www.thymeleaf.org/" xmlns:xlmns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.w3.org/1999/xhtml">
-<head>
-    <head th:replace="fragments :: head"></head>
+<head th:replace="fragments :: head">
+
 </head>
+
 <body>
     <div align ="center">
     <h1 th:replace="fragments :: title"></h1>
-<a href="/home/login">login</a>
+    <a href="/home/login">login</a>
 
         <div class="row">
             <div th:each= "art: ${arts}" class="column">
