@@ -9,8 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
 
 
 /**
@@ -73,14 +76,27 @@ public class LoggedInController {
 
 
         }
-    @RequestMapping(value="/{userName}/addart",method =RequestMethod.POST)
-    public String processAddArtForm(@CookieValue(value="loggedInCookie")String cookieValue, Model model,@PathVariable String userName,@ModelAttribute Art newArt){
+    @RequestMapping(value="/{username}/addart",method =RequestMethod.POST)
+    public String processAddArtForm(@CookieValue(value="loggedInCookie")String cookieValue, Model model, @PathVariable String username, @ModelAttribute Art newArt,
+                                    @RequestParam MultipartFile file){
         int id = Integer.parseInt(cookieValue);
         User activeUser = userDao.findOne(id);
         model.addAttribute("activeUser", activeUser);
-        newArt.setOwner(activeUser);
+        File hdFile=new File("C://projimages/"+file.getOriginalFilename());
+
+        if (!file.isEmpty()){
+            try{
+                file.transferTo(hdFile);
+
+            }
+            catch(IOException e){
+                e.printStackTrace();
+
+            }
+        }
+
         artDao.save(newArt);
-        return "redirect:/home/"+userName;
+        return "redirect:/home/"+username+"/"+newArt.getTitle();
 
     }
 

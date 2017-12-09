@@ -7,7 +7,7 @@
 <body>
 <div align="center">
 <h1 th:text="${title}"></h1>
-<form method="post" style="max-width:600px;" th:object="${newArt}">
+<form method="post" style="max-width:600px;" th:object="${newArt}" enctype="multipart/form-data">
     <div class="form-group">
         <label th:for="title">title</label>
         <input class="form-control" th:field="*{title}" />
@@ -17,6 +17,7 @@
         <label th:for="imageLocation">image location</label>
         <input class="form-control" th:field="*{imageLocation}" />
         <span th:errors="*{imageLocation}" class="error"></span>
+
     </div>
 
     <div class="form-group">
@@ -24,8 +25,11 @@
         <input class="form-control" th:field="*{style}"/>
         <span th:errors="*{style}" class = "error"></span>
     </div>
-
-    <input type="submit" value="List for sale" />
+    <!--<form th:value ="'home/'+${username}+'/addart/imageupload'" method="post"
+          enctype="multipart/form-data">
+   --><input type="file" name="file" size="50" />
+        <!--<input type="submit" value="Upload Image" />
+   --><input type="submit" value="List for sale" />
 </form>
 </div>
 

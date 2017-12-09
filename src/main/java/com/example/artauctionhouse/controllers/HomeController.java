@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * Created by lonny on 11/1/2017.
  */
 @Controller
-@RequestMapping("home")
+@RequestMapping("/home")
 public class HomeController {
 
     @Autowired
