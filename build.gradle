@@ -37,4 +37,5 @@ dependencies {
 
 bootRun{
 	addResources = true
+
 }

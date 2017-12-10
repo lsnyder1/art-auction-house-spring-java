@@ -82,7 +82,11 @@ public class LoggedInController {
         int id = Integer.parseInt(cookieValue);
         User activeUser = userDao.findOne(id);
         model.addAttribute("activeUser", activeUser);
-        File hdFile=new File("C://projimages/"+file.getOriginalFilename());
+        File chkDir=new File("C://projimages/"+username);
+        if (!chkDir.exists()){
+            chkDir.mkdir();
+        }
+        File hdFile=new File("C://projimages/"+username+"/"+file.getOriginalFilename());
 
         if (!file.isEmpty()){
             try{
@@ -94,7 +98,8 @@ public class LoggedInController {
 
             }
         }
-
+        newArt.setImageLocation("/projimages/"+username+"/"+hdFile.getName());
+        newArt.setOwner(activeUser);
         artDao.save(newArt);
         return "redirect:/home/"+username+"/"+newArt.getTitle();
 
